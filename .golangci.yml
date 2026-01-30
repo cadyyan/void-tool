@@ -1,0 +1,77 @@
+version: "2"
+
+linters:
+  default: all
+
+  enable:
+    - wsl_v5
+
+  disable:
+    - funlen
+    - godox
+    - wsl
+
+  settings:
+    depguard:
+      rules:
+        main:
+          allow:
+            - $gostd
+            - github.com/cadyyan/void-tool
+            - github.com/go-chi/chi/v5
+            - github.com/go-chi/render
+            - github.com/go-chi/httplog/v2
+            - github.com/go-playground/validator/v10
+            - github.com/kelseyhightower/envconfig
+            - github.com/lmittmann/tint
+            - github.com/spf13/cobra
+            - github.com/stretchr/testify/require
+
+    exhaustruct:
+      exclude:
+        - .+/cobra\.Command$
+
+    revive:
+      rules:
+        - name: package-comments
+          disabled: true
+
+    staticcheck:
+      checks:
+        - all
+        - -ST1000
+
+    varnamelen:
+      ignore-names:
+        - err
+        - ok
+      ignore-decls:
+        - w http.ResponseWriter
+        - r *http.Request
+
+  exclusions:
+    generated: lax
+    rules:
+      - linters:
+          - dupl
+          - noctx
+        path: _test\.go
+
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

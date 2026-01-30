@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>Void - Home</title>
+
+		<style>
+		html { font-family: monospace; }
+		</style>
+	</head>
+	<body>
+		<h1>Users</h1>
+		{{range .Users}}
+			{{$user := .}}
+			<h2>{{$user.AccountName}}</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Skill</th>
+						<th>Level</th>
+						<th>Experience</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{range $.Skills}}
+						<tr>
+							<td>{{.}}</td>
+							<td>{{index $user.Levels .}}</td>
+							<td>{{index $user.Experience .}}</td>
+						</tr>
+					{{end}}
+				</tbody>
+			</table>
+		{{end}}
+	</body>
+</html>
