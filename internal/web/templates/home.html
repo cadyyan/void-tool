@@ -11,10 +11,10 @@
 		</style>
 	</head>
 	<body>
-		<h1>Users</h1>
-		{{range .Users}}
-			{{$user := .}}
-			<h2>{{$user.AccountName}}</h2>
+		<h1>Players</h1>
+		{{range .Players}}
+			{{$player := .}}
+			<h2>{{$player.AccountName}}</h2>
 			<table>
 				<thead>
 					<tr>
@@ -27,8 +27,8 @@
 					{{range $.Skills}}
 						<tr>
 							<td>{{.}}</td>
-							<td>{{index $user.Levels .}}</td>
-							<td>{{index $user.Experience .}}</td>
+							<td>{{index $player.Levels .}}</td>
+							<td>{{index $player.Experience .}}</td>
 						</tr>
 					{{end}}
 				</tbody>

@@ -13,9 +13,15 @@ services:
 
     environment:
       VOID_LOGGING_LEVEL: debug
+      VOID_SQLITE_PATH: /srv/void-tool.db
       VOID_RS_DATADIR: /mnt/void
+      VOID_RS_POLLFREQUENCY: 30s
 
     volumes:
+      - type: volume
+        source: void_tool_data
+        target: /srv
+
       - type: volume
         source: void_data
         target: /mnt/void
@@ -28,6 +34,8 @@ services:
         published: 8080
 
 volumes:
+  void_tool_data:
+
   void_data:
     name: runescape_void_data
     external: true

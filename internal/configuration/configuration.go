@@ -10,6 +10,7 @@ type Configuration struct {
 	Logging LoggingConfiguration
 	HTTP    HTTPConfiguration
 	RS      RunescapeConfiguration
+	SQLite  SQLiteConfiguration
 }
 
 func NewConfigurationFromEnv() (Configuration, error) {

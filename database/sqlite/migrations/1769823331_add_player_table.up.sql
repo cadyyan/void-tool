@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS players (
+    id VARCHAR PRIMARY KEY NOT NULL,
+    username VARCHAR UNIQUE NOT NULL,
+    created_on VARCHAR NOT NULL
+);

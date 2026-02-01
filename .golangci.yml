@@ -8,7 +8,9 @@ linters:
 
   disable:
     - funlen
+    - gochecknoglobals
     - godox
+    - noinlineerr
     - wsl
 
   settings:
@@ -17,19 +19,25 @@ linters:
         main:
           allow:
             - $gostd
+            - github.com/BurntSushi/toml
             - github.com/cadyyan/void-tool
             - github.com/go-chi/chi/v5
             - github.com/go-chi/render
             - github.com/go-chi/httplog/v2
+            - github.com/go-co-op/gocron/v2
             - github.com/go-playground/validator/v10
+            - github.com/golang-migrate/migrate/v4
+            - github.com/google/uuid
             - github.com/kelseyhightower/envconfig
             - github.com/lmittmann/tint
             - github.com/spf13/cobra
             - github.com/stretchr/testify/require
+            - modernc.org/sqlite
 
     exhaustruct:
       exclude:
         - .+/cobra\.Command$
+        - ^net/http\.Server$
 
     revive:
       rules:

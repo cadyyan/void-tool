@@ -1,0 +1,27 @@
+[sqlfluff]
+dialect = sqlite
+
+[sqlfluff:indentation]
+# Ensures JOIN starts at the same margin as SELECT/FROM
+indented_joins = False
+# Ensures the ON clause (another_table.id = second) is indented
+indented_using_on = True
+# Standard indent size (adjust to 2 if you prefer)
+tab_space_size = 4
+
+[sqlfluff:layout:type:comma]
+# Ensures commas are at the end of the line (trailing)
+line_position = trailing
+
+[sqlfluff:layout:type:set_operator]
+# This forces 'AND'/'OR' to be alone on their own line
+line_position = alone:strict
+
+[sqlfluff:rules:layout.select_targets]
+# Forces each column in the SELECT clause to a new line if there are multiple
+wildcard_policy = multiple
+
+[sqlfluff:layout:type:statement_terminator]
+# 'alone' forces the semicolon to a new line
+# 'strict' ensures no other code shares that line
+line_position = alone:strict
