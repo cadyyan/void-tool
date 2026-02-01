@@ -13,17 +13,18 @@ import (
 func HandlerHome(
 	logger *slog.Logger,
 	templateFS fs.FS,
-	userService services.UserService,
+	voidPlayerService services.VoidPlayerService,
 ) http.HandlerFunc {
 	tmpl := template.Must(template.ParseFS(templateFS, "templates/home.html"))
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
-		logger.DebugContext(ctx, "Getting all users")
-		users, err := userService.GetAllUsers(ctx)
+		logger.DebugContext(ctx, "Getting all players")
+
+		players, err := voidPlayerService.GetAllPlayers(ctx)
 		if err != nil {
-			logger.ErrorContext(ctx, "Unable to get a list of all users", logging.Err(err))
+			logger.ErrorContext(ctx, "Unable to get a list of all players", logging.Err(err))
 			w.WriteHeader(http.StatusInternalServerError)
 
 			return
@@ -33,8 +34,8 @@ func HandlerHome(
 		w.WriteHeader(http.StatusOK)
 
 		templateData := map[string]any{
-			"Users":  users,
-			"Skills": skillOrder,
+			"Players": players,
+			"Skills":  skillOrder,
 		}
 		if err := tmpl.Execute(w, templateData); err != nil {
 			panic(err) // TODO: better handling
@@ -42,32 +43,30 @@ func HandlerHome(
 	}
 }
 
-var (
-	skillOrder = []string{
-		"Attack",
-		"Defence",
-		"Strength",
-		"Constitution",
-		"Ranged",
-		"Prayer",
-		"Magic",
-		"Cooking",
-		"Woodcutting",
-		"Fletching",
-		"Fishing",
-		"Firemaking",
-		"Crafting",
-		"Smithing",
-		"Mining",
-		"Herblore",
-		"Agility",
-		"Thieving",
-		"Slayer",
-		"Farming",
-		"Runecrafting",
-		"Hunter",
-		"Construction",
-		"Summoning",
-		"Dungeoneering",
-	}
-)
+var skillOrder = []string{
+	"Attack",
+	"Defence",
+	"Strength",
+	"Constitution",
+	"Ranged",
+	"Prayer",
+	"Magic",
+	"Cooking",
+	"Woodcutting",
+	"Fletching",
+	"Fishing",
+	"Firemaking",
+	"Crafting",
+	"Smithing",
+	"Mining",
+	"Herblore",
+	"Agility",
+	"Thieving",
+	"Slayer",
+	"Farming",
+	"Runecrafting",
+	"Hunter",
+	"Construction",
+	"Summoning",
+	"Dungeoneering",
+}

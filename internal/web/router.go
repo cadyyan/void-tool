@@ -18,7 +18,7 @@ var templateFS embed.FS
 func NewRouter(
 	logger *slog.Logger,
 	config configuration.Configuration,
-	userService services.UserService,
+	voidPlayerService services.VoidPlayerService,
 ) *chi.Mux {
 	router := chi.NewRouter()
 
@@ -40,7 +40,7 @@ func NewRouter(
 		_, _ = w.Write([]byte("OK"))
 	})
 
-	router.Get("/", HandlerHome(logger, templateFS, userService))
+	router.Get("/", HandlerHome(logger, templateFS, voidPlayerService))
 
 	return router
 }
