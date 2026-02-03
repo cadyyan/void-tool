@@ -54,10 +54,10 @@ func newServeCommand() *cobra.Command {
 				return err
 			}
 
-			playerQueries := sqlitedb.New(sqliteConnection)
+			queries := sqlitedb.New(sqliteConnection)
 
-			logger.DebugContext(ctx, "Setting up file based user service")
-
+			logger.DebugContext(ctx, "Setting up services")
+			storageService := services.NewStorageSQLiteService(sqliteConnection, queries)
 			voidPlayerService := services.NewVoidPlayerFileService(config.RS.DataDirFS())
 
 			logger.DebugContext(ctx, "Setting up server")
@@ -66,7 +66,8 @@ func newServeCommand() *cobra.Command {
 				logger,
 				config,
 				sqliteConnection,
-				playerQueries,
+				queries,
+				storageService,
 				voidPlayerService,
 			)
 			if err != nil {

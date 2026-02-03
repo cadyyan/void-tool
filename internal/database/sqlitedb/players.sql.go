@@ -194,14 +194,8 @@ FROM latest_skills_by_player AS skills
 INNER JOIN players
     ON
         skills.player_id = players.id
-        AND players.username = ?
 ORDER BY skills.experience DESC
 `
-
-type GetHighscoresForSkillParams struct {
-	Name     string
-	Username string
-}
 
 type GetHighscoresForSkillRow struct {
 	ID         string
@@ -211,8 +205,8 @@ type GetHighscoresForSkillRow struct {
 	Level      int64
 }
 
-func (q *Queries) GetHighscoresForSkill(ctx context.Context, arg GetHighscoresForSkillParams) ([]GetHighscoresForSkillRow, error) {
-	rows, err := q.db.QueryContext(ctx, getHighscoresForSkill, arg.Name, arg.Username)
+func (q *Queries) GetHighscoresForSkill(ctx context.Context, name string) ([]GetHighscoresForSkillRow, error) {
+	rows, err := q.db.QueryContext(ctx, getHighscoresForSkill, name)
 	if err != nil {
 		return nil, err
 	}

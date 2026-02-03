@@ -26,6 +26,7 @@ func NewServer(
 	config configuration.Configuration,
 	sqliteDB *sql.DB,
 	playerQueries *sqlitedb.Queries,
+	storageService services.StorageService,
 	voidPlayerService services.VoidPlayerService,
 ) (*Server, error) {
 	cron, err := gocron.NewScheduler()
@@ -38,8 +39,7 @@ func NewServer(
 		gocron.NewTask(
 			bgtasks.ScrapePlayerSkills,
 			logger.WithGroup("background--ingestSkills"),
-			sqliteDB,
-			playerQueries,
+			storageService,
 			voidPlayerService,
 		),
 	)
@@ -50,7 +50,7 @@ func NewServer(
 	return &Server{
 		http: &http.Server{
 			Addr:              config.HTTP.BindAddress(),
-			Handler:           web.NewRouter(logger, config, voidPlayerService),
+			Handler:           web.NewRouter(logger, config, storageService),
 			ReadHeaderTimeout: readHeaderTimeout,
 			IdleTimeout:       idleTimeout,
 			// TODO: error logger
