@@ -13,7 +13,7 @@ import (
 func HandlerHome(
 	logger *slog.Logger,
 	templateFS fs.FS,
-	voidPlayerService services.VoidPlayerService,
+	storageService services.StorageService,
 ) http.HandlerFunc {
 	tmpl := template.Must(template.ParseFS(templateFS, "templates/home.html"))
 
@@ -22,7 +22,7 @@ func HandlerHome(
 
 		logger.DebugContext(ctx, "Getting all players")
 
-		players, err := voidPlayerService.GetAllPlayers(ctx)
+		players, err := storageService.GetAllPlayers(ctx)
 		if err != nil {
 			logger.ErrorContext(ctx, "Unable to get a list of all players", logging.Err(err))
 			w.WriteHeader(http.StatusInternalServerError)
@@ -31,11 +31,27 @@ func HandlerHome(
 		}
 		logger.DebugContext(ctx, "Found all users")
 
+		logger.DebugContext(ctx, "Getting skills for each player")
+		playerSkills := make(map[string]map[string]services.PlayerSkillRecord)
+		for _, player := range players {
+			skills, err := storageService.GetPlayerSkills(ctx, player.Username)
+			if err != nil {
+				logger.ErrorContext(ctx, "Unable to get player stats", logging.Err(err))
+				w.WriteHeader(http.StatusInternalServerError)
+
+				return
+			}
+
+			playerSkills[player.Username] = skills
+		}
+		logger.DebugContext(ctx, "Get all player skills")
+
 		w.WriteHeader(http.StatusOK)
 
 		templateData := map[string]any{
-			"Players": players,
-			"Skills":  skillOrder,
+			"Players":      players,
+			"PlayerSkills": playerSkills,
+			"SkillOrder":   skillOrder,
 		}
 		if err := tmpl.Execute(w, templateData); err != nil {
 			panic(err) // TODO: better handling

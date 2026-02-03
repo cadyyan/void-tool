@@ -23,13 +23,13 @@ var _ VoidPlayerService = (*VoidPlayerFileService)(nil)
 
 func (service *VoidPlayerFileService) GetAllPlayers(
 	ctx context.Context,
-) ([]Player, error) {
+) ([]VoidPlayer, error) {
 	playerFiles, err := fs.Glob(service.fs, "*.toml")
 	if err != nil {
 		return nil, fmt.Errorf("unable to find player files: %w", err)
 	}
 
-	players := make([]Player, len(playerFiles))
+	players := make([]VoidPlayer, len(playerFiles))
 	for index, playerFile := range playerFiles {
 		save, err := service.parsePlayerFile(service.fs, playerFile)
 		if err != nil {
@@ -45,12 +45,12 @@ func (service *VoidPlayerFileService) GetAllPlayers(
 func (service *VoidPlayerFileService) parsePlayerFile(
 	fileSystem fs.FS,
 	filePath string,
-) (Player, error) {
+) (VoidPlayer, error) {
 	var save PlayerSaveFileFormat
 
 	_, err := toml.DecodeFS(fileSystem, filePath, &save)
 	if err != nil {
-		return Player{}, fmt.Errorf("unable to read player save file: %w", err)
+		return VoidPlayer{}, fmt.Errorf("unable to read player save file: %w", err)
 	}
 
 	experience := make(map[string]float64)
@@ -63,7 +63,7 @@ func (service *VoidPlayerFileService) parsePlayerFile(
 
 	creationTime := time.UnixMilli(save.Variables.Creation)
 
-	return Player{
+	return VoidPlayer{
 		AccountName: save.AccountName,
 		Experience:  experience,
 		Levels:      levels,

@@ -121,7 +121,6 @@ FROM latest_skills_by_player AS skills
 INNER JOIN players
     ON
         skills.player_id = players.id
-        AND players.username = ?
 ORDER BY skills.experience DESC;
 
 -- name: RecordPlayerSkill :exec

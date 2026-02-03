@@ -6,10 +6,10 @@ import (
 )
 
 type VoidPlayerService interface {
-	GetAllPlayers(ctx context.Context) ([]Player, error)
+	GetAllPlayers(ctx context.Context) ([]VoidPlayer, error)
 }
 
-type Player struct {
+type VoidPlayer struct {
 	AccountName string
 	Experience  map[string]float64
 	Levels      map[string]int

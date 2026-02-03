@@ -14,7 +14,8 @@
 		<h1>Players</h1>
 		{{range .Players}}
 			{{$player := .}}
-			<h2>{{$player.AccountName}}</h2>
+			{{$skills := index $.PlayerSkills $player.Username}}
+			<h2>{{$player.Username}}</h2>
 			<table>
 				<thead>
 					<tr>
@@ -24,11 +25,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					{{range $.Skills}}
+					{{range $.SkillOrder}}
+						{{$skill := index $skills .}}
 						<tr>
 							<td>{{.}}</td>
-							<td>{{index $player.Levels .}}</td>
-							<td>{{index $player.Experience .}}</td>
+							<td>{{$skill.Level}}</td>
+							<td>{{$skill.Experience}}</td>
 						</tr>
 					{{end}}
 				</tbody>
