@@ -68,13 +68,18 @@ repos:
         files: ^go.(mod|sum)|.+\.go$
         pass_filenames: false
 
+  - repo: https://github.com/biomejs/pre-commit
+    rev: v2.3.14 # Use the sha / tag you want to point at
+    hooks:
+      - id: biome-check
+
   - repo: https://github.com/hadolint/hadolint
     rev: v2.14.0
     hooks:
       - id: hadolint
 
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 4.0.0
+    rev: 4.0.1
     hooks:
       - id: sqlfluff-lint
       - id: sqlfluff-fix

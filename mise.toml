@@ -2,6 +2,7 @@
 "github:golang-migrate/migrate" = "4.19.1"
 go = "1.25.6"
 golangci-lint = "2.8.0"
+node = "25.6.0"
 "pipx:sqlfluff" = "4.0.0"
 pre-commit = "4.5.1"
 
