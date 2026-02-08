@@ -15,6 +15,9 @@ import (
 //go:embed templates/*.html
 var templateFS embed.FS
 
+//go:embed assets/*
+var assetsFS embed.FS
+
 func NewRouter(
 	logger *slog.Logger,
 	config configuration.Configuration,
@@ -41,6 +44,11 @@ func NewRouter(
 	})
 
 	router.Get("/", HandlerHome(logger, templateFS, storageService))
+
+	router.Handle(
+		"/assets/*",
+		http.FileServer(http.FS(assetsFS)),
+	)
 
 	return router
 }
