@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>{{.Player.Username}}</title>
+
+		<link rel="stylesheet" href="/assets/main.css" />
+	</head>
+	<body>
+		<main class="p-1">
+			<div class="breadcrumbs">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li>Players</li>
+					<li>
+						<a href="/players/{{.Player.Username}}">
+							{{.Player.Username}}
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<h1 class="text-lg font-bold py-1.5 pb-2.5">{{.Player.Username}}</h1>
+
+			<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+				<table class="table table-zebra table-sm">
+					<thead>
+						<tr>
+							<th>Skill</th>
+							<th>Level</th>
+							<th>Experience</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{range $.SkillOrder}}
+							{{$skill := index $.Skills .}}
+							<tr>
+								<td>{{.}}</td>
+								<td>{{FmtInt $skill.Level}}</td>
+								<td>{{FmtFloat $skill.Experience}}</td>
+							</tr>
+						{{end}}
+						<tr>
+							<td>Total</td>
+							<td>{{FmtInt $.TotalLevel}}</td>
+							<td>{{FmtFloat $.TotalExperience}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</main>
+	</body>
+</html>

@@ -10,8 +10,9 @@ ENV CI=1
 
 RUN npm install --global --force corepack@latest && corepack enable && pnpm --help
 
-COPY --link . .
-# TODO: only require the frontend resources
+COPY --link ./package.json ./pnpm-lock.yaml ./
+COPY --link ./assets ./assets
+COPY --link ./internal/web/templates ./internal/web/templates
 
 RUN \
   --mount=type=cache,id=pnpm,target=/pnpm/store \
@@ -23,20 +24,17 @@ FROM golang:1.25.6 AS go_builder
 
 WORKDIR /src
 
-COPY --link . .
-
 COPY ./go.mod ./go.sum ./
 RUN go mod download
 
 COPY --link . .
-COPY --from=node_builder /src/internal/web/assets ./internal/web/
+COPY --from=node_builder /src/internal/web/assets ./internal/web/assets
 RUN CGO_ENABLED=0 go build -o build/void-tool main.go
 
 
 FROM scratch
 
 COPY --from=go_builder /src/build/void-tool /
-COPY --from=go_builder /src /src
 
 EXPOSE 8080
 

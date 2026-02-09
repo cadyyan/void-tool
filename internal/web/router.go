@@ -44,6 +44,7 @@ func NewRouter(
 	})
 
 	router.Get("/", HandlerHome(logger, templateFS, storageService))
+	router.Get("/player/{username}", HandlerPlayerPage(logger, templateFS, storageService))
 
 	router.Handle(
 		"/assets/*",
