@@ -8,31 +8,23 @@
 
 		<link rel="stylesheet" href="/assets/main.css" />
 	</head>
-	<body class="prose">
-		<h1>Players</h1>
-		{{range .Players}}
-			{{$player := .}}
-			{{$skills := index $.PlayerSkills $player.Username}}
-			<h2>{{$player.Username}}</h2>
-			<table>
-				<thead>
-					<tr>
-						<th>Skill</th>
-						<th>Level</th>
-						<th>Experience</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{range $.SkillOrder}}
-						{{$skill := index $skills .}}
-						<tr>
-							<td>{{.}}</td>
-							<td>{{$skill.Level}}</td>
-							<td>{{$skill.Experience}}</td>
-						</tr>
-					{{end}}
-				</tbody>
-			</table>
-		{{end}}
+	<body>
+		<main class="min-h-screen flex flex-col justify-center items-center">
+			<div class="card card-border bg-base-300 text-base-300-content w-96">
+				<div class="card-body">
+					<h1 class="card-title">Players</h1>
+					<ul class="list">
+						{{range .Players}}
+							{{$player := .}}
+							<li class="list-row">
+								<a href="./player/{{$player.Username}}" class="link">
+									{{$player.Username}}
+								</a>
+							</li>
+						{{end}}
+					</ul>
+				</div>
+			</div>
+		</main>
 	</body>
 </html>
